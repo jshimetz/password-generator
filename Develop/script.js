@@ -1,4 +1,44 @@
 // Assignment code here
+var specialCharacters = [
+  '~',
+  '!',
+  '@',
+  '#',
+  '$',
+  '%',
+  '^',
+  '&',
+  '*',
+  '(',
+  ')',
+  '-',
+  '_',
+  '=',
+  '+',
+  ';',
+  ':',
+  '"',
+  ',',
+  '.',
+  '/',
+  '<',
+  '>',
+  '?',
+];
+
+var numberCharacters = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+];
+
 
 
 // Get references to the #generate element
