@@ -97,6 +97,33 @@ var uppercaseLetters = [
   'Z',
 ];
 
+function createPassword(){
+  enter = parseInt(prompt('How many characters would you like your password to contain?'));
+  if (!enter) {
+    alert("Password length must be provided as a number");
+    return null;
+  } 
+  else if (enter < 8 || enter > 128) {
+    enter = parseInt(prompt("This value must be between 8 and 128 characters"));
+    return null;
+  }
+  else {
+    confirmSpecialCharacters = confirm("Click OK to confirm including special characters.")
+    confirmNumberCharacters = confirm("Click OK to confirm including numbers.")
+    confirmLowercaseLetters = confirm("Click OK to confirm including lowercase letters.")
+    confirmUppercaseLetters = confirm("Click OK to confirm including uppercase letters.")
+  }
+if (
+  confirmSpecialCharacters === false &&
+  confirmNumberCharacters === false &&
+  confirmLowercaseLetters === false &&
+  confirmUppercaseLetters === false 
+) {
+  alert("Must select at least one character type");
+  return null;
+}
+
+}
 
 
 // Get references to the #generate element
