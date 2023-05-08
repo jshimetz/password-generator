@@ -1,4 +1,3 @@
-// Assignment code here
 var specialCharacters = [
   '~',
   '!',
@@ -97,39 +96,97 @@ var uppercaseLetters = [
   'Z',
 ];
 
-function createPassword(){
-  enter = parseInt(prompt('How many characters would you like your password to contain?'));
+function getPasswordOptions() {
+  var enter = parseInt(prompt('How many characters would you like your password to contain?'));
   if (!enter) {
     alert("Password length must be provided as a number");
     return null;
-  } 
-  else if (enter < 8 || enter > 128) {
-    enter = parseInt(prompt("This value must be between 8 and 128 characters"));
+  } else if (enter < 8 || enter > 128) {
+    alert("This value must be between 8 and 128 characters");
     return null;
+  } else {
+    var confirmSpecialCharacters = confirm("Click OK to confirm including special characters.");
+    var confirmNumberCharacters = confirm("Click OK to confirm including numbers.");
+    var confirmLowercaseLetters = confirm("Click OK to confirm including lowercase letters.");
+    var confirmUppercaseLetters = confirm("Click OK to confirm including uppercase letters.");
+
+    if (
+      confirmSpecialCharacters === false &&
+      confirmNumberCharacters === false &&
+      confirmLowercaseLetters === false &&
+      confirmUppercaseLetters === false 
+    ) {
+      alert("Must select at least one character type");
+      return null;
+    }
+
+    var passwordOptions = {
+      length: enter,
+      hasSpecialCharacters: confirmSpecialCharacters,
+      hasNumberCharacters: confirmNumberCharacters,
+      hasLowercaseLetters: confirmLowercaseLetters,
+      hasUppercaseLetters: confirmUppercaseLetters,
+    };
+
+    return passwordOptions;
   }
-  else {
-    confirmSpecialCharacters = confirm("Click OK to confirm including special characters.")
-    confirmNumberCharacters = confirm("Click OK to confirm including numbers.")
-    confirmLowercaseLetters = confirm("Click OK to confirm including lowercase letters.")
-    confirmUppercaseLetters = confirm("Click OK to confirm including uppercase letters.")
-  }
-if (
-  confirmSpecialCharacters === false &&
-  confirmNumberCharacters === false &&
-  confirmLowercaseLetters === false &&
-  confirmUppercaseLetters === false 
-) {
-  alert("Must select at least one character type");
-  return null;
 }
 
+function getRandom(arr) {
+  var randIndex = Math.floor(Math.random() * arr.length);
+  var randElement = arr[randIndex];
+
+  return randElement;
+}
+
+function generatePassword() {
+  var options = getPasswordOptions();
+  var result = [];
+
+  var possibleCharacters = [];
+
+  var guaranteedCharacters = [];
+
+  if (!options) return null;
+
+  if (options.hasSpecialCharacters) {
+    possibleCharacters = possibleCharacters.concat(specialCharacters);
+    guaranteedCharacters.push(getRandom(specialCharacters));
+  }
+  
+  if (options.hasNumberCharacters) {
+    possibleCharacters = possibleCharacters.concat(numberCharacters);
+    guaranteedCharacters.push(getRandom(numberCharacters));
+  }
+  
+  if (options.hasLowercaseLetters) {
+    possibleCharacters = possibleCharacters.concat(lowercaseLetters);
+    guaranteedCharacters.push(getRandom(lowercaseLetters));
+  }
+  
+  if (options.hasUppercaseLetters) {
+    possibleCharacters = possibleCharacters.concat(uppercaseLetters);
+    guaranteedCharacters.push(getRandom(uppercaseLetters));
+  }
+  
+
+  for (var i = 0; i < options.length; i++) {
+    var possibleCharacter = getRandom(possibleCharacters);
+
+    result.push(possibleCharacter);
+  }
+
+  for (var i = 0; i < guaranteedCharacters.length; i++) {
+  var guaranteedIndex = Math.floor(Math.random() * options.length);
+  result[guaranteedIndex] = guaranteedCharacters[i];
+}
+
+  return result.join('');
 }
 
 
-// Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
-// Write password to the #password input
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
@@ -138,5 +195,4 @@ function writePassword() {
 
 }
 
-// Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
